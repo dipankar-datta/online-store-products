@@ -1,13 +1,10 @@
 package com.dipankar.onlinestore.products.rest.dto.request;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "products")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

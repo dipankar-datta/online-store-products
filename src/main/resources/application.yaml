@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: online-store-products
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/your_database}
+    username: ${DB_USERNAME:your_username}
+    password: ${DB_PASSWORD:your_password}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:db/changelog/changes/001-create-products-table.json
+    enabled: true
+    drop-first: false
+    contexts: development
