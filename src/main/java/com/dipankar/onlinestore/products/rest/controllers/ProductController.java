@@ -3,14 +3,20 @@ package com.dipankar.onlinestore.products.rest.controllers;
 
 import com.dipankar.onlinestore.products.data.entities.Product;
 import com.dipankar.onlinestore.products.rest.dto.request.ProductRequest;
+import com.dipankar.onlinestore.products.rest.dto.response.ProductResponse;
 import com.dipankar.onlinestore.products.services.ProductService;
+import com.dipankar.onlinestore.products.util.exception.NoDataFoudException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.dipankar.onlinestore.products.util.CommonUtil.handleOptional;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -20,41 +26,45 @@ public class ProductController {
 
     // Create a new product
     @PostMapping
-    ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) {
-        Product createdProduct = productService.save(productRequest);
-        return ResponseEntity.ok(createdProduct);
+    @ResponseStatus(HttpStatus.OK)
+    ProductResponse createProduct(@RequestBody ProductRequest productRequest) {
+        Product createdProduct = productService.save(productRequest.toEntity());
+        log.info("Product created successfully: {}", createdProduct.getId());
+        return ProductResponse.toResponse(createdProduct);
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    ProductResponse updateProduct(@RequestBody ProductRequest productRequest) {
+        Product createdProduct = productService.save(productRequest.toEntity());
+        log.info("Product updated successfully: {}", createdProduct.getId());
+        return ProductResponse.toResponse(createdProduct);
     }
 
     // Get a product by ID
     @GetMapping("/{id}")
-    ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    ProductResponse getProductById(@PathVariable Long id) throws NoDataFoudException {
         Optional<Product> productOpt = productService.getProductById(id);
-        return productOpt.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ProductResponse.toResponse(handleOptional(productOpt));
     }
 
     // Get all products
     @GetMapping
-    ResponseEntity<List<Product>> getAllProducts() {
+    @ResponseStatus(HttpStatus.OK)
+    List<ProductResponse> getAllProducts() {
         List<Product> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+        log.info("Getting all products");
+        return products.stream().map(ProductResponse::toResponse).toList();
     }
 
-    // Update a product by ID
-    @PutMapping("/{id}")
-    ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
-        Product createdProduct = productService.save(productRequest);
-        return ResponseEntity.ok(createdProduct);
-    }
 
     // Delete a product by ID
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    void deleteProduct(@PathVariable Long id) throws NoDataFoudException {
         Optional<Product> productOpt = productService.getProductById(id);
-        if (productOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        handleOptional(productOpt);
         productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
     }
 }

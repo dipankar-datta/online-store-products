@@ -21,9 +21,7 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     // Create a new product
-    public Product save(ProductRequest productRequest) {
-        Product product = new Product();
-        copyProperties(productRequest, product);
+    public Product save(Product product) {
         return productRepository.save(product);
     }
 

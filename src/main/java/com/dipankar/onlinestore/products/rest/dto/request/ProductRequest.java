@@ -1,14 +1,13 @@
 package com.dipankar.onlinestore.products.rest.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.dipankar.onlinestore.products.data.entities.Product;
+import lombok.*;
 
-@Data
+import static org.springframework.beans.BeanUtils.copyProperties;
+
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ProductRequest {
 
     private Long id;
@@ -16,4 +15,11 @@ public class ProductRequest {
     private String description;
     private String group;
     private String image;
+
+    public Product toEntity() {
+        Product product = new Product();
+        copyProperties(this, product);
+        return product;
+    }
+
 }
