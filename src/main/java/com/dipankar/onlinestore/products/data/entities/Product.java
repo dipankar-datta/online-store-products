@@ -29,4 +29,7 @@ public class Product {
 
     @Column(name = "image")
     private String image;
+
+    @Column(name = "units_available")
+    private Long unitsAvailable;
 }

@@ -49,6 +49,12 @@
                     "name": "image",
                     "type": "VARCHAR(255)"
                   }
+                },
+                {
+                  "column": {
+                    "name": "units_available",
+                    "type": "INT"
+                  }
                 }
               ]
             }

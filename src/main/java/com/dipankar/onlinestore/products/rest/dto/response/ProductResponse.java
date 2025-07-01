@@ -19,6 +19,7 @@ public class ProductResponse {
     private String description;
     private String group;
     private String image;
+    private Long unitsAvailable;
 
     public static ProductResponse toResponse(Product product) {
         ProductResponse response = new ProductResponse();
