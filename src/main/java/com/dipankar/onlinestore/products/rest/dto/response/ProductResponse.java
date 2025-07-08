@@ -20,6 +20,7 @@ public class ProductResponse {
     private String group;
     private String image;
     private Long unitsAvailable;
+    private Double price;
 
     public static ProductResponse toResponse(Product product) {
         ProductResponse response = new ProductResponse();

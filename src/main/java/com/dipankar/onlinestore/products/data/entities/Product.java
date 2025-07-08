@@ -32,4 +32,7 @@ public class Product {
 
     @Column(name = "units_available")
     private Long unitsAvailable;
+
+    @Column(name = "price")
+    private Double price;
 }

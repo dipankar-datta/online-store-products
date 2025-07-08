@@ -16,6 +16,7 @@ public class ProductRequest {
     private String group;
     private String image;
     private Long unitsAvailable;
+    private Double price;
 
     public Product toEntity() {
         Product product = new Product();

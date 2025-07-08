@@ -55,6 +55,12 @@
                     "name": "units_available",
                     "type": "INT"
                   }
+                },
+                {
+                  "column": {
+                    "name": "price",
+                    "type": "DECIMAL(19,2)"
+                  }
                 }
               ]
             }
